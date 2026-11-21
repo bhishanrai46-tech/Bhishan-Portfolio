@@ -1,42 +1,45 @@
-# Bhishan Rai – Portfolio template
+# Bhishan Rai – Personal Portfolio
 
-Plain HTML, CSS and JavaScript. No build step, no install needed.
+Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Framer Motion · Lucide icons
 
+## Edit your content
+Everything you will want to change is in **`src/data/site.ts`**: name, headline, About, journey, experience, education, projects, skills, interests, achievements, blog notes and contact links. Save the file and the site updates.
+
+Items marked `placeholder: true` show a dashed "add your own" style until you replace them.
+
+## Add images
+1. Put photos in **`public/images/`** (JPG, PNG or WebP; keep each under about 1 MB).
+2. In `src/data/site.ts`, set the path, for example `portrait: "/images/portrait.jpg"` or `image: "/images/project-1.jpg"`.
+3. If an image is empty or the file is missing, a clean placeholder is shown, so nothing breaks.
+
+Images used: `site.portrait`, `about.image`, each `journey[].image`, each `projects[].image`, each `interests[].image`.
+
+## Add a project or a note
+Copy an object in `projects` or `notes` in `src/data/site.ts`, give it a new unique `slug`, and edit the text. A page is created automatically at `/projects/<slug>` or `/notes/<slug>`.
+
+## Change the CV
+Replace `public/Bhishan_Rai_Resume.docx` (keep the same file name, or change `site.cv`).
+
+## Colours and fonts
+Design tokens are at the top of `src/app/globals.css` (`--color-ink`, `--color-paper`, `--color-bronze`, fonts).
+
+## Contact form
+The form posts to `/api/contact`. To make it send email:
+1. Create a free account at https://resend.com and get an API key.
+2. In Vercel: Project → Settings → Environment Variables, add `RESEND_API_KEY` and `CONTACT_TO_EMAIL` (see `.env.example`). Redeploy.
+
+Until then the form shows a friendly message pointing people to your email address.
+
+## Run locally
+```bash
+npm install
+npm run dev      # http://localhost:3000
+npm run build    # production build
 ```
-index.html         Home page (about, journey, engineering, beyond work, thoughts, contact)
-thoughts.html      Writing page
-gallery.html       Photo gallery
-page-template.html Copy this to make a new page
-styles.css         All colours, fonts and layout
-site.js            Menu, footer and theme button (edit SITE at the top)
-images/            Put your photos here
-Bhishan_Rai_Resume.docx
-```
-
-## Insert an image
-1. Put the photo in the `images` folder, for example `images/office.jpg`.
-   Use `.jpg`, `.png` or `.webp`, and keep each file under about 500 KB (resize large photos first).
-2. In the page where you want it, add:
-   ```html
-   <figure class="figure">
-     <img src="images/office.jpg" alt="Describe the photo">
-     <figcaption>Optional caption</figcaption>
-   </figure>
-   ```
-3. File names are case sensitive and should avoid spaces: `office-photo.jpg`, not `Office Photo.JPG`.
-
-**Your profile photo:** save it as `images/me.jpg`, then in `index.html` change `images/me.svg` to `images/me.jpg`.
-
-**Gallery:** open `gallery.html`, copy one `<figure>…</figure>` block and change the file name and caption.
-
-## Add a page
-1. Copy `page-template.html` and rename it, for example `travel.html`.
-2. Change the title, heading and text.
-3. Add it to the menu: open `site.js` and add `{ label: "Travel", href: "travel.html" }` to the `pages` list.
-
-## Edit text
-Open any `.html` file in a text editor (VS Code, Notepad) and change the words between the tags. Save, then redeploy.
 
 ## Deploy on Vercel
-- **Easiest:** push this folder to a GitHub repo and import it at vercel.com (framework preset "Other"). Every time you add or edit files on GitHub, Vercel redeploys automatically. On github.com you can drag and drop new images straight into the `images` folder.
-- **CLI:** `npm i -g vercel`, then run `vercel --prod` inside this folder.
+1. Go to https://vercel.com/new and import this GitHub repo.
+2. Framework is detected as **Next.js**. Leave all defaults and click **Deploy**.
+3. Optional: set `NEXT_PUBLIC_SITE_URL` to your live URL (used for SEO and the sitemap).
+
+Every push to `main` redeploys automatically.

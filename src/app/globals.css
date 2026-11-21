@@ -1,0 +1,34 @@
+@import "tailwindcss";
+@import "@fontsource-variable/inter";
+@import "@fontsource/instrument-serif";
+
+@theme {
+  --color-ink: #111214;
+  --color-ink-2: #1a1c1f;
+  --color-line-dark: #2a2d31;
+  --color-paper: #f5f4f0;
+  --color-paper-2: #ebe9e2;
+  --color-line: #d9d6cc;
+  --color-bronze: #a67c52;       /* accent on dark */
+  --color-bronze-deep: #86602f;  /* accent on light (AA contrast) */
+  --color-muted-dark: #9a9fa6;
+  --color-muted: #5d6066;
+  --font-sans: "Inter Variable", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Instrument Serif", Georgia, serif;
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 72px; }
+body { background: var(--color-paper); color: var(--color-ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+::selection { background: var(--color-bronze); color: #fff; }
+
+.display { font-family: var(--font-serif); font-weight: 400; letter-spacing: -0.02em; line-height: 0.98; }
+.eyebrow { font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 500; }
+.hairline { border-color: var(--color-line); }
+.on-dark .hairline { border-color: var(--color-line-dark); }
+
+:focus-visible { outline: 2px solid var(--color-bronze); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
