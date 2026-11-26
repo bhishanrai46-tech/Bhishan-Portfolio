@@ -1,14 +1,14 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
-import { site } from "@/data/site";
+import { useContent } from "./edit/ContentProvider";
 
 type State = "idle" | "sending" | "sent" | "error";
 
-const field =
-  "mt-2 w-full border border-line-dark bg-ink-2 px-4 py-3 text-paper placeholder:text-muted-dark focus:border-bronze focus:outline-none";
+const field = "mt-2 w-full border border-line-dark bg-ink-2 px-4 py-3 text-paper placeholder:text-muted-dark focus:border-bronze focus:outline-none";
 
 export function ContactForm() {
+  const { content } = useContent();
   const [state, setState] = useState<State>("idle");
   const [error, setError] = useState("");
 
@@ -19,11 +19,7 @@ export function ContactForm() {
     setState("sending");
     setError("");
     try {
-      const res = await fetch("/api/contact", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch("/api/contact", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(data) });
       const json = (await res.json().catch(() => ({}))) as { error?: string };
       if (!res.ok) throw new Error(json.error ?? "Something went wrong.");
       setState("sent");
@@ -44,7 +40,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} className="space-y-5" noValidate={false}>
+    <form onSubmit={onSubmit} className="space-y-5">
       <div className="grid gap-5 sm:grid-cols-2">
         <label className="block text-sm">
           Name
@@ -59,27 +55,21 @@ export function ContactForm() {
         Message
         <textarea name="message" required minLength={10} maxLength={4000} rows={6} className={field} placeholder="Tell me about your idea or question" />
       </label>
-      {/* Honeypot: real people never see or fill this */}
       <div aria-hidden className="absolute -left-[9999px]">
         <label>
           Leave this empty
           <input name="website" tabIndex={-1} autoComplete="off" />
         </label>
       </div>
-
       <div className="flex flex-wrap items-center gap-4">
-        <button
-          type="submit"
-          disabled={state === "sending"}
-          className="bg-bronze px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-paper disabled:opacity-60"
-        >
-          {state === "sending" ? "Sending…" : "Send message"}
+        <button type="submit" disabled={state === "sending"} className="bg-bronze px-7 py-3.5 text-sm font-medium text-ink transition-colors hover:bg-paper disabled:opacity-60">
+          {state === "sending" ? "Sending…" : content.labels.sendMessage}
         </button>
         {state === "error" && (
           <p role="alert" className="text-sm text-paper">
             {error} You can also email me at{" "}
-            <a className="text-bronze underline" href={`mailto:${site.email}`}>
-              {site.email}
+            <a className="text-bronze underline" href={`mailto:${content.site.email}`}>
+              {content.site.email}
             </a>
             .
           </p>

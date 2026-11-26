@@ -1,5 +1,8 @@
+"use client";
+
 import { Mail } from "lucide-react";
-import { site } from "@/data/site";
+import { safeHref } from "@/lib/url";
+import { useContent } from "./edit/ContentProvider";
 
 const cls = "flex h-11 w-11 items-center justify-center border border-line-dark text-paper transition-colors hover:border-bronze hover:text-bronze";
 
@@ -20,23 +23,31 @@ function LinkedInIcon() {
 }
 
 export function Socials() {
+  const { content } = useContent();
+  const { linkedin, github, email } = content.site;
   return (
     <ul className="flex gap-3">
-      <li>
-        <a href={site.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={cls}>
-          <LinkedInIcon />
-        </a>
-      </li>
-      <li>
-        <a href={site.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className={cls}>
-          <GitHubIcon />
-        </a>
-      </li>
-      <li>
-        <a href={`mailto:${site.email}`} aria-label="Email" className={cls}>
-          <Mail size={20} aria-hidden />
-        </a>
-      </li>
+      {linkedin && (
+        <li>
+          <a href={safeHref(linkedin)} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className={cls}>
+            <LinkedInIcon />
+          </a>
+        </li>
+      )}
+      {github && (
+        <li>
+          <a href={safeHref(github)} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className={cls}>
+            <GitHubIcon />
+          </a>
+        </li>
+      )}
+      {email && (
+        <li>
+          <a href={`mailto:${email}`} aria-label="Email" className={cls}>
+            <Mail size={20} aria-hidden />
+          </a>
+        </li>
+      )}
     </ul>
   );
 }

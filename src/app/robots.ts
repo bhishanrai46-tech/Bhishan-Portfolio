@@ -1,6 +1,7 @@
 import type { MetadataRoute } from "next";
-import { site } from "@/data/site";
+
+const base = () => process.env.NEXT_PUBLIC_SITE_URL ?? (process.env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}` : "http://localhost:3000");
 
 export default function robots(): MetadataRoute.Robots {
-  return { rules: { userAgent: "*", allow: "/" }, sitemap: `${site.url}/sitemap.xml` };
+  return { rules: { userAgent: "*", allow: "/", disallow: ["/creator", "/api/"] }, sitemap: `${base()}/sitemap.xml` };
 }

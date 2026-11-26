@@ -32,3 +32,10 @@ body { background: var(--color-paper); color: var(--color-ink); font-family: var
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
 }
+
+/* ---- Creator mode ---- */
+.cb-edit { outline: 1px dashed color-mix(in srgb, var(--color-bronze) 70%, transparent); outline-offset: 3px; cursor: text; min-width: 2ch; transition: outline-color .15s; }
+.cb-edit:hover { outline-style: solid; }
+.cb-edit:focus { outline: 2px solid var(--color-bronze); background: color-mix(in srgb, var(--color-bronze) 12%, transparent); }
+.cb-edit:empty::before { content: attr(data-placeholder); opacity: .5; }
+body.has-creator-bar { padding-bottom: 5rem; }

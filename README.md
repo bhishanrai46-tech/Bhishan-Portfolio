@@ -1,45 +1,41 @@
-# Bhishan Rai – Personal Portfolio
+# Bhishan Rai: Portfolio
 
-Next.js 16 (App Router) · React 19 · TypeScript · Tailwind CSS 4 · Framer Motion · Lucide icons
+A Next.js 16 portfolio with two modes:
 
-## Edit your content
-Everything you will want to change is in **`src/data/site.ts`**: name, headline, About, journey, experience, education, projects, skills, interests, achievements, blog notes and contact links. Save the file and the site updates.
+- **Visitor mode**: the normal read-only site.
+- **Creator mode**: log in at `/creator` and edit the live site in place, WordPress-style.
 
-Items marked `placeholder: true` show a dashed "add your own" style until you replace them.
+## What you can edit in creator mode
 
-## Add images
-1. Put photos in **`public/images/`** (JPG, PNG or WebP; keep each under about 1 MB).
-2. In `src/data/site.ts`, set the path, for example `portrait: "/images/portrait.jpg"` or `image: "/images/project-1.jpg"`.
-3. If an image is empty or the file is missing, a clean placeholder is shown, so nothing breaks.
+- **Any text**: click it and type. Press Enter to finish a single line.
+- **Any image**: hover it and use *Upload image* (images are shrunk in the browser first, 4 MB max).
+- **Colours, fonts, text size**: *Design* panel.
+- **Sections**: *Sections* panel. Rename, reorder, hide, or hide from the menu.
+- **Items in lists**: move up or down, delete, or add (projects, roles, skills, interests and more).
+- **Pages**: *Pages* panel. Add projects, articles and custom pages. New ones start as drafts; Publish when ready.
+- **Site settings**: name, email, LinkedIn, GitHub, SEO description, CV file.
 
-Images used: `site.portrait`, `about.image`, each `journey[].image`, each `projects[].image`, each `interests[].image`.
+Press **Save** (or Ctrl/Cmd+S). **Visitor view** previews the site without editing tools. Drafts and placeholder items are never shown to visitors.
 
-## Add a project or a note
-Copy an object in `projects` or `notes` in `src/data/site.ts`, give it a new unique `slug`, and edit the text. A page is created automatically at `/projects/<slug>` or `/notes/<slug>`.
+## Set up on Vercel
 
-## Change the CV
-Replace `public/Bhishan_Rai_Resume.docx` (keep the same file name, or change `site.cv`).
+1. Connect the Vercel project to this GitHub repo (`Bhishan-Portfolio`, branch `main`).
+2. **Storage tab**: create a **Blob** store with **Public** access and connect it to the project. This adds `BLOB_READ_WRITE_TOKEN`.
+3. **Settings → Environment Variables**: add `CREATOR_PASSWORD` (long and unique) and optionally `SESSION_SECRET`.
+4. Redeploy, then open `/creator` and log in.
 
-## Colours and fonts
-Design tokens are at the top of `src/app/globals.css` (`--color-ink`, `--color-paper`, `--color-bronze`, fonts).
+## Local development
 
-## Contact form
-The form posts to `/api/contact`. To make it send email:
-1. Create a free account at https://resend.com and get an API key.
-2. In Vercel: Project → Settings → Environment Variables, add `RESEND_API_KEY` and `CONTACT_TO_EMAIL` (see `.env.example`). Redeploy.
-
-Until then the form shows a friendly message pointing people to your email address.
-
-## Run locally
 ```bash
 npm install
-npm run dev      # http://localhost:3000
-npm run build    # production build
+cp .env.example .env.local   # set CREATOR_PASSWORD
+npm run dev
 ```
 
-## Deploy on Vercel
-1. Go to https://vercel.com/new and import this GitHub repo.
-2. Framework is detected as **Next.js**. Leave all defaults and click **Deploy**.
-3. Optional: set `NEXT_PUBLIC_SITE_URL` to your live URL (used for SEO and the sitemap).
+Without a Blob token, edits are saved to `.data/` locally (git-ignored).
 
-Every push to `main` redeploys automatically.
+## Notes
+
+- Last save wins if you edit from two devices at once.
+- The last 8 saves are kept in Blob storage.
+- Contact form needs the Resend variables in `.env.example`.
